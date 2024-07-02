@@ -312,6 +312,77 @@ describe('static', () => {
         '0x0000000000000000000000000000000000000000000000000000000000000000',
       )
     })
+
+    test('from string', () => {
+      expect(
+        encodeAbiParameters(
+          [
+            {
+              name: 'xIn',
+              type: 'bool',
+            },
+          ],
+          ['False' as unknown as boolean],
+        ),
+      ).toBe(
+        '0x0000000000000000000000000000000000000000000000000000000000000000',
+      )
+      expect(
+        encodeAbiParameters(
+          [
+            {
+              name: 'xIn',
+              type: 'bool',
+            },
+          ],
+          ['True' as unknown as boolean],
+        ),
+      ).toBe(
+        '0x0000000000000000000000000000000000000000000000000000000000000001',
+      )
+    })
+
+    test('from number', () => {
+      expect(
+        encodeAbiParameters(
+          [
+            {
+              name: 'xIn',
+              type: 'bool',
+            },
+          ],
+          [23 as unknown as boolean],
+        ),
+      ).toBe(
+        '0x0000000000000000000000000000000000000000000000000000000000000001',
+      )
+      expect(
+        encodeAbiParameters(
+          [
+            {
+              name: 'xIn',
+              type: 'bool',
+            },
+          ],
+          [BigInt(23) as unknown as boolean],
+        ),
+      ).toBe(
+        '0x0000000000000000000000000000000000000000000000000000000000000001',
+      )
+      expect(
+        encodeAbiParameters(
+          [
+            {
+              name: 'xIn',
+              type: 'bool',
+            },
+          ],
+          [0 as unknown as boolean],
+        ),
+      ).toBe(
+        '0x0000000000000000000000000000000000000000000000000000000000000000',
+      )
+    })
   })
 
   describe('bytes8', () => {
@@ -1788,10 +1859,10 @@ test('https://github.com/wevm/viem/issues/1960', () => {
         },
       ] as const,
       // @ts-expect-error
-      [['true']],
+      [['truez']],
     ),
   ).toThrowErrorMatchingInlineSnapshot(`
-    [ViemError: Invalid boolean value: "true" (type: string). Expected: \`true\` or \`false\`.
+    [ViemError: Invalid boolean value: "truez" (type: string). Expected: \`true\` or \`false\`.
 
     Version: viem@x.y.z]
   `)
